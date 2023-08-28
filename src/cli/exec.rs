@@ -429,16 +429,21 @@ pub fn exec_gen_witness(
 }
 
 pub fn exec_create_proof_from_witness(
+    block_number: u64,
     compilation_tables: CompilationTable,
     execution_tables: ExecutionTable,
     instance: &[u64],
     params: &Params<<Bn256 as Engine>::G1Affine>,
     vkey: VerifyingKey<<Bn256 as Engine>::G1Affine>,
+    output_dir: PathBuf,
 ) -> Result<Vec<u8>> {
     let circuit = TestCircuit::new(Tables{
         compilation_tables,
         execution_tables,
     });
+
+    circuit.tables.write_json(Some(output_dir));
+
     let mut instance: Vec<Fr> = instance
         .iter()
         .map(|v| (*v).into())
@@ -456,7 +461,7 @@ pub fn exec_create_proof_from_witness(
         vkey,
         circuit.clone(),
         &[&instances],
-        None,
+        Some(&output_dir.join(format!("{}.transcript.data", *block_number as u64))),
         TranscriptHash::Poseidon,
         false,
     ))

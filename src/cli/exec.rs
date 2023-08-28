@@ -429,7 +429,6 @@ pub fn exec_gen_witness(
 }
 
 pub fn exec_create_proof_from_witness(
-    block_number: u64,
     compilation_tables: CompilationTable,
     execution_tables: ExecutionTable,
     instance: &[u64],
@@ -461,7 +460,7 @@ pub fn exec_create_proof_from_witness(
         vkey,
         circuit.clone(),
         &[&instances],
-        Some(&output_dir.join(format!("{}.transcript.data", block_number))),
+        Some(&output_dir.join(format!("{}.transcript.data", 0))),
         TranscriptHash::Poseidon,
         false,
     ))

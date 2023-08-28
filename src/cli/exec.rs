@@ -442,7 +442,7 @@ pub fn exec_create_proof_from_witness(
         execution_tables,
     });
 
-    circuit.tables.write_json(Some(output_dir));
+    circuit.tables.write_json(Some(output_dir.clone()));
 
     let mut instance: Vec<Fr> = instance
         .iter()
@@ -461,7 +461,7 @@ pub fn exec_create_proof_from_witness(
         vkey,
         circuit.clone(),
         &[&instances],
-        Some(&output_dir.join(format!("{}.transcript.data", *block_number as u64))),
+        Some(&output_dir.join(format!("{}.transcript.data", block_number))),
         TranscriptHash::Poseidon,
         false,
     ))

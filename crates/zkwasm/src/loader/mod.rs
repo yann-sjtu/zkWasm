@@ -7,8 +7,12 @@ use anyhow::Result;
 use halo2_proofs::arithmetic::MultiMillerLoop;
 use halo2_proofs::dev::MockProver;
 use halo2_proofs::plonk::keygen_vk;
+use halo2_proofs::plonk::verify_proof;
+use halo2_proofs::plonk::SingleVerifier;
 use halo2_proofs::plonk::VerifyingKey;
 use halo2_proofs::poly::commitment::Params;
+use halo2_proofs::poly::commitment::ParamsVerifier;
+use halo2aggregator_s::transcript::poseidon::PoseidonRead;
 use specs::ExecutionTable;
 use specs::Tables;
 use wasmi::tracer::Tracer;
@@ -266,6 +270,27 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
         let c = self.compile(&env)?;
 
         init_zkwasm_runtime(self.k, &c.tables);
+
+        Ok(())
+    }
+
+    pub fn verify_single_proof(
+        params: &Params<E::G1Affine>,
+        vkey: &VerifyingKey<E::G1Affine>,
+        instances: &[E::Scalar],
+        proof: &[u8],
+    ) -> Result<()> {
+        let params_verifier: ParamsVerifier<E> = params.verifier(instances.len()).unwrap();
+        let strategy = SingleVerifier::new(&params_verifier);
+
+        verify_proof(
+            &params_verifier,
+            vkey,
+            strategy,
+            &[&[instances]],
+            &mut PoseidonRead::init(proof),
+        )
+            .unwrap();
 
         Ok(())
     }

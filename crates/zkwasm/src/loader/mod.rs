@@ -60,7 +60,7 @@ pub struct ZkWasmLoader<E: MultiMillerLoop> {
     module: wasmi::Module,
     phantom_functions: Vec<String>,
     _data: PhantomData<E>,
-    tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
+    //tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
 }
 
 impl<E: MultiMillerLoop> ZkWasmLoader<E> {
@@ -133,7 +133,7 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
         k: u32,
         image: Vec<u8>,
         phantom_functions: Vec<String>,
-        tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
+        _tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
     ) -> Result<Self> {
         set_zkwasm_k(k);
 
@@ -144,7 +144,6 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
             module,
             phantom_functions,
             _data: PhantomData,
-            tree_db,
         };
 
         loader.precheck()?;
@@ -183,7 +182,7 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
             arg.context_inputs,
             arg.context_outputs,
             arg.external_outputs,
-            self.tree_db.clone(),
+            None,
         );
 
         let compiled_module = self.compile(&env)?;
@@ -202,7 +201,7 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
             arg.context_inputs,
             arg.context_outputs,
             arg.external_outputs,
-            self.tree_db.clone(),
+            None,
         );
 
         let compiled_module = self.compile(&env)?;

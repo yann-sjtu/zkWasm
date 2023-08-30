@@ -81,7 +81,7 @@ pub fn exec_setup(
         } else {
             info!("Create Verifying to {:?}", vk_path);
             let loader =
-                ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions, None)?;
+                ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions)?;
 
             let vkey = loader.create_vkey(&params)?;
 
@@ -100,7 +100,7 @@ pub fn exec_image_checksum(
     phantom_functions: Vec<String>,
     output_dir: &PathBuf,
 ) -> Result<()> {
-    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions, None)?;
+    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions)?;
 
     let hash: Fr = loader.checksum()?;
 
@@ -176,7 +176,6 @@ pub fn exec_dry_run_service(
                                 zkwasm_k,
                                 wasm_binary.clone(),
                                 phantom_functions.clone(),
-                                None,
                             )
                             .unwrap();
 
@@ -237,7 +236,7 @@ pub fn exec_dry_run(
     context_outputs: Rc<RefCell<Vec<u64>>>,
     external_outputs: Rc<RefCell<HashMap<u64, Vec<u64>>>>,
 ) -> Result<()> {
-    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions, None)?;
+    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions)?;
 
     loader.dry_run(ExecutionArg {
         public_inputs,
@@ -262,7 +261,7 @@ pub fn exec_create_proof(
     context_outputs: Rc<RefCell<Vec<u64>>>,
     external_outputs: Rc<RefCell<HashMap<u64, Vec<u64>>>>,
 ) -> Result<()> {
-    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions, None)?;
+    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions)?;
 
     let (circuit, instances) = loader.circuit_with_witness(ExecutionArg {
         public_inputs,
@@ -340,7 +339,7 @@ pub fn exec_aggregate_create_proof(
 ) -> Result<()> {
     assert_eq!(public_inputs.len(), private_inputs.len());
 
-    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions, None)?;
+    let loader = ZkWasmLoader::<Bn256>::new(zkwasm_k, wasm_binary, phantom_functions)?;
 
     let (circuits, instances) = public_inputs
         .into_iter()

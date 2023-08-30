@@ -32,7 +32,6 @@ use crate::runtime::CompiledImage;
 use crate::runtime::ExecutionResult;
 use crate::runtime::WasmInterpreter;
 use anyhow::anyhow;
-use zkwasm_host_circuits::host::db::TreeDB;
 
 mod err;
 
@@ -60,7 +59,6 @@ pub struct ZkWasmLoader<E: MultiMillerLoop> {
     module: wasmi::Module,
     phantom_functions: Vec<String>,
     _data: PhantomData<E>,
-    //tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
 }
 
 impl<E: MultiMillerLoop> ZkWasmLoader<E> {
@@ -133,7 +131,6 @@ impl<E: MultiMillerLoop> ZkWasmLoader<E> {
         k: u32,
         image: Vec<u8>,
         phantom_functions: Vec<String>,
-        _tree_db: Option<Rc<RefCell<dyn TreeDB>>>,
     ) -> Result<Self> {
         set_zkwasm_k(k);
 

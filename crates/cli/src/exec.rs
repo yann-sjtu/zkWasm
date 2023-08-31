@@ -74,7 +74,7 @@ pub fn exec_setup(
 
     // Setup ZkWasm Vkey
     {
-        let vk_path = &output_dir.join(format!("{}.{}.vkey.data", prefix, 0));
+        let vk_path = &output_dir.join(format!("{}.{}.vkey.data", prefix, zkwasm_k));
 
         if vk_path.exists() {
             info!("Found Verifying at {:?}", vk_path);

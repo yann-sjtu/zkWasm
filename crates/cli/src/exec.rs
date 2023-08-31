@@ -250,7 +250,7 @@ pub fn exec_dry_run(
 }
 
 pub fn exec_create_proof(
-    prefix: &'static str,
+    prefix: &str,
     zkwasm_k: u32,
     wasm_binary: Vec<u8>,
     phantom_functions: Vec<String>,
@@ -292,7 +292,7 @@ pub fn exec_create_proof(
 }
 
 pub fn exec_verify_proof(
-    prefix: &'static str,
+    prefix: &str,
     output_dir: &PathBuf,
 ) -> Result<()> {
     let load_info = output_dir.join(format!("{}.loadinfo.json", prefix));

@@ -79,7 +79,7 @@ impl Tables {
         let mtable = serde_json::to_string_pretty(&self.execution_tables.mtable).unwrap();
         let jtable = serde_json::to_string_pretty(&self.execution_tables.jtable).unwrap();
 
-        let dir = dir.unwrap_or(env::current_dir().unwrap());
+        let dir = dir.unwrap_or(env::current_dir().unwrap()).join("data");
         write_file(&dir, "itable.json", &itable);
         write_file(&dir, "imtable.json", &imtable);
         write_file(&dir, "etable.json", &etable);

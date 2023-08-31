@@ -271,12 +271,6 @@ pub fn exec_create_proof(
         external_outputs,
     })?;
 
-    if true {
-        info!("Mock test...");
-        loader.mock_test(&circuit, &instances)?;
-        info!("Mock test passed");
-    }
-
     let circuit: CircuitInfo<Bn256, TestCircuit<Fr>>  = CircuitInfo::new(
         circuit,
         prefix.to_string(),

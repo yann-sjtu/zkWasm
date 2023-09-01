@@ -49,3 +49,4 @@ rusty-fork = "0.3.0"
 default = []
 checksum = []
 cuda = ["halo2_proofs/cuda", "specs/cuda"]
+asm = ["halo2_proofs/asm"]

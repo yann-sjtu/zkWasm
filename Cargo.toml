@@ -8,3 +8,6 @@ wasmi = { path = "third-party/wasmi" }
 
 [profile.dev]
 opt-level = 3
+
+[patch."https://github.com/DelphinusLab/continuation-batcher.git"]
+circuits-batcher = { path = "../continuation-batcher"}
